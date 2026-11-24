@@ -10,7 +10,7 @@
     "preview": "vite preview",
     "typecheck": "tsc -b",
     "format": "prettier --write .",
-    "format:check": "prettier --check .",
+    "format:check": "prettier --check ."
   },
   "dependencies": {
     "react": "^19.3.1",
