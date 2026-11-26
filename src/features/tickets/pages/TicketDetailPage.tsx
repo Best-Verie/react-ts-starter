@@ -1,10 +1,22 @@
+import { useQuery } from '@tanstack/react-query'
 import { Link, useParams } from 'react-router'
+import { ticketQueryOptions } from '@/features/tickets/api/queries'
 import { StatusBadge } from '@/features/tickets/components/StatusBadge'
-import { findTicket } from '@/features/tickets/mock-data'
+import { ErrorMessage } from '@/shared/ui/ErrorMessage'
 
 export function TicketDetailPage() {
-  const { ticketId } = useParams()
-  const ticket = ticketId ? findTicket(ticketId) : undefined
+  const { ticketId = '' } = useParams()
+  const ticketQuery = useQuery(ticketQueryOptions(ticketId))
+
+  if (ticketQuery.isPending) {
+    return <p>Loading ticket…</p>
+  }
+
+  if (ticketQuery.isError) {
+    return <ErrorMessage error={ticketQuery.error} onRetry={() => void ticketQuery.refetch()} />
+  }
+
+  const ticket = ticketQuery.data
 
   if (!ticket) {
     return (
