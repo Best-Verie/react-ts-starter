@@ -1,73 +1,78 @@
-# React + TypeScript + Vite
+a# react-ts-starter
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Reference frontend starter: React 19, TypeScript (strict), Vite. Demo domain: support tickets.
 
-Currently, two official plugins are available:
+## Requirements
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- Node.js 22+
+- npm 10+
 
-## React Compiler
+## Setup
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+cp .env.example .env.local   # PowerShell: Copy-Item .env.example .env.local
+npm run dev                  # http://localhost:5173
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+## Environment variables
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+| Variable            | Required | Example                        | Purpose              |
+| ------------------- | -------- | ------------------------------ | -------------------- |
+| `VITE_APP_NAME`     | no       | `Tickets`                      | Shown in the UI      |
+| `VITE_API_BASE_URL` | yes      | `http://localhost:8000/api/v1` | Backend API base URL |
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+All variables are validated at startup in `src/config/env.ts`. Only that file reads `import.meta.env`.
+Every `VITE_` variable is bundled into the browser, so never put secrets here.
+
+## Scripts
+
+| Script                 | What it does                         |
+| ---------------------- | ------------------------------------ |
+| `npm run dev`          | Dev server with hot reload           |
+| `npm run build`        | Type-check, then production build    |
+| `npm run preview`      | Serve the production build locally   |
+| `npm run typecheck`    | TypeScript check only                |
+| `npm run lint`         | ESLint                               |
+| `npm run format`       | Format all files with Prettier       |
+| `npm run format:check` | Fail if any file is not formatted    |
+
+## Project structure
+
 ```
+src/
+  app/        App shell, providers, router
+  config/     Validated environment config
+  features/   One folder per business domain (e.g. tickets/)
+  shared/     Reusable ui/, lib/, hooks/ with no business logic
+```
+
+Rules:
+
+- A feature can import from `shared/` and `config/`. `shared/` never imports from a feature.
+- Features don't import each other's internals.
+- Import with the `@/` alias (`@/config/env`), not long relative paths.
+
+## Conventions
+
+- Commits follow Conventional Commits: `feat:`, `fix:`, `chore:`, `docs:`, `refactor:`, `test:`.
+- One branch per piece of work, merged into `main` with `--no-ff`.
+- Formatting: Prettier. Linting: ESLint, with formatting rules turned off via `eslint-config-prettier`.
+- Line endings: LF, enforced by `.gitattributes` and `.editorconfig`.
+
+## Decisions
+
+See [docs/adr](docs/adr).
+
+## Troubleshooting
+
+| Problem                                         | Fix                                                            |
+| ----------------------------------------------- | -------------------------------------------------------------- |
+| `Invalid environment variables` on startup      | Create `.env.local` from `.env.example` and fill in the values |
+| `Cannot find module '@/...'`                    | The alias must be in both `tsconfig.app.json` and `vite.config.ts` |
+| `EJSONPARSE` from npm                           | `package.json` has a syntax error, often a trailing comma      |
+| `format:check` fails                            | Run `npm run format`                                           |
+
+## Known limitations
+
+- No routing, data fetching, auth or tests yet. These are added step by step.
