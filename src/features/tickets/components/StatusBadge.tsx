@@ -1,10 +1,5 @@
 import type { TicketStatus } from '@/features/tickets/types'
-
-const STATUS_LABELS: Record<TicketStatus, string> = {
-  open: 'Open',
-  in_progress: 'In progress',
-  resolved: 'Resolved',
-}
+import { STATUS_LABELS } from '@/features/tickets/status'
 
 type StatusBadgeProps = {
   status: TicketStatus

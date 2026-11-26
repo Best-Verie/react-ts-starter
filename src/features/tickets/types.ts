@@ -4,7 +4,6 @@ export type TicketStatus = (typeof TICKET_STATUSES)[number]
 export const TICKET_PRIORITIES = ['low', 'medium', 'high'] as const
 export type TicketPriority = (typeof TICKET_PRIORITIES)[number]
 
-
 export type Ticket = {
   id: string
   title: string
