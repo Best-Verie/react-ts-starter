@@ -12,3 +12,7 @@ export type Ticket = {
   priority: TicketPriority
   createdAt: string // ISO 8601
 }
+
+export function isTicketStatus(value: unknown): value is TicketStatus {
+  return typeof value === 'string' && (TICKET_STATUSES as readonly string[]).includes(value)
+}
