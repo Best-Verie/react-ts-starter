@@ -27,15 +27,15 @@ Every `VITE_` variable is bundled into the browser, so never put secrets here.
 
 ## Scripts
 
-| Script                 | What it does                         |
-| ---------------------- | ------------------------------------ |
-| `npm run dev`          | Dev server with hot reload           |
-| `npm run build`        | Type-check, then production build    |
-| `npm run preview`      | Serve the production build locally   |
-| `npm run typecheck`    | TypeScript check only                |
-| `npm run lint`         | ESLint                               |
-| `npm run format`       | Format all files with Prettier       |
-| `npm run format:check` | Fail if any file is not formatted    |
+| Script                 | What it does                       |
+| ---------------------- | ---------------------------------- |
+| `npm run dev`          | Dev server with hot reload         |
+| `npm run build`        | Type-check, then production build  |
+| `npm run preview`      | Serve the production build locally |
+| `npm run typecheck`    | TypeScript check only              |
+| `npm run lint`         | ESLint                             |
+| `npm run format`       | Format all files with Prettier     |
+| `npm run format:check` | Fail if any file is not formatted  |
 
 ## Project structure
 
@@ -66,12 +66,12 @@ See [docs/adr](docs/adr).
 
 ## Troubleshooting
 
-| Problem                                         | Fix                                                            |
-| ----------------------------------------------- | -------------------------------------------------------------- |
-| `Invalid environment variables` on startup      | Create `.env.local` from `.env.example` and fill in the values |
-| `Cannot find module '@/...'`                    | The alias must be in both `tsconfig.app.json` and `vite.config.ts` |
-| `EJSONPARSE` from npm                           | `package.json` has a syntax error, often a trailing comma      |
-| `format:check` fails                            | Run `npm run format`                                           |
+| Problem                                    | Fix                                                                |
+| ------------------------------------------ | ------------------------------------------------------------------ |
+| `Invalid environment variables` on startup | Create `.env.local` from `.env.example` and fill in the values     |
+| `Cannot find module '@/...'`               | The alias must be in both `tsconfig.app.json` and `vite.config.ts` |
+| `EJSONPARSE` from npm                      | `package.json` has a syntax error, often a trailing comma          |
+| `format:check` fails                       | Run `npm run format`                                               |
 
 ## Known limitations
 
