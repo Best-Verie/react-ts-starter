@@ -3,6 +3,7 @@ import { RootLayout } from '@/app/layouts/RootLayout'
 import { NotFoundPage } from '@/app/pages/NotFoundPage'
 import { RouteErrorBoundary } from '@/app/RouteErrorBoundary'
 import { TicketListPage } from '@/features/tickets/pages/TicketListPage'
+import { NewTicketPage } from '@/features/tickets/pages/NewTicketPage'
 
 export const router = createBrowserRouter([
   {
@@ -23,4 +24,5 @@ export const router = createBrowserRouter([
       { path: '*', element: <NotFoundPage /> },
     ],
   },
+  { path: 'tickets/new', element: <NewTicketPage /> },
 ])

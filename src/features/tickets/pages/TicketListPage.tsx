@@ -36,7 +36,9 @@ export function TicketListPage() {
   return (
     <section>
       <h1>Tickets</h1>
-
+      <p>
+        <Link to="/tickets/new">New ticket</Link>
+      </p>
       <div>
         <label>
           Search{' '}
