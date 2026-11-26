@@ -1,7 +1,8 @@
-import type { TicketStatus } from '@/features/tickets/types'
+import type { TicketPriority, TicketStatus } from '@/features/tickets/types'
 
-export const STATUS_LABELS: Record<TicketStatus, string> = {
-  open: 'Open',
-  in_progress: 'In progress',
-  resolved: 'Resolved',
+// keep STATUS_LABELS as is, then add:
+export const PRIORITY_LABELS: Record<TicketPriority, string> = {
+  low: 'Low',
+  medium: 'Medium',
+  high: 'High',
 }

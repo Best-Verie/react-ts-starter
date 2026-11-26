@@ -15,7 +15,6 @@ export function TicketListPage() {
   const statusParam = searchParams.get('status')
   const status = isTicketStatus(statusParam) ? statusParam : undefined
 
-  const normalizedQuery = query.trim().toLowerCase()
   const filters: TicketFilters = { q: query.trim() || undefined, status }
   const ticketsQuery = useQuery(ticketsQueryOptions(filters))
 
