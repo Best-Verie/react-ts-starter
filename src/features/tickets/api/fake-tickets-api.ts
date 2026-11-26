@@ -1,10 +1,13 @@
 import { MOCK_TICKETS } from '@/features/tickets/mock-data'
 import type { Ticket, TicketStatus } from '@/features/tickets/types'
 import { sleep } from '@/shared/lib/sleep'
+import type { CreateTicketInput } from '@/features/tickets/schemas'
+import { ApiError } from '@/shared/lib/api-error'
 
 const LATENCY_MS = 600
 const FAILURE_RATE = 0.2
 
+let tickets: Ticket[] = [...MOCK_TICKETS]
 export type TicketFilters = {
   q?: string
   status?: TicketStatus
@@ -36,4 +39,30 @@ export async function fetchTicket(id: string, signal?: AbortSignal): Promise<Tic
   maybeFail()
 
   return MOCK_TICKETS.find((ticket) => ticket.id === id) ?? null
+}
+
+export async function createTicket(
+  input: CreateTicketInput,
+  signal?: AbortSignal,
+): Promise<Ticket> {
+  await sleep(LATENCY_MS, signal)
+  maybeFail()
+
+  const isDuplicate = tickets.some(
+    (ticket) => ticket.title.toLowerCase() === input.title.toLowerCase(),
+  )
+  if (isDuplicate) {
+    throw new ApiError('Validation failed.', 422, {
+      title: 'A ticket with this title already exists.',
+    })
+  }
+
+  const ticket: Ticket = {
+    id: `T-${1001 + tickets.length}`,
+    ...input,
+    status: 'open',
+    createdAt: new Date().toISOString(),
+  }
+  tickets = [ticket, ...tickets]
+  return ticket
 }
